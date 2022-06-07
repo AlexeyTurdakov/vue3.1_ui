@@ -1,26 +1,74 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container pt-1">
+    <div class="card">
+      <h2>Actual news {{ now }}</h2>
+      Counter Open News: {{ count }} <br />
+      Counter Read News: {{ readNewsCount }}
+    </div>
+    <app-news
+      v-for="item in news"
+      :key="item.id"
+      :title="item.title"
+      :id="item.id"
+      :flagOpenNews="item.flagOpenNews"
+      :was-read="item.wasRead"
+      @open-news="counterFunction"
+      @read-news="readNewsFunction"
+    ></app-news>
+    <the-footer></the-footer>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppNews from "./components/AppNews.vue";
 
 export default {
-  name: 'App',
+  data() {
+    return {
+      now: new Date().toLocaleString(),
+      count: 0,
+      readNewsCount: 0,
+      news: [
+        {
+          title: "news 1",
+          id: 1,
+          flagOpenNews: false,
+          wasRead: true,
+        },
+        {
+          title: "news 2",
+          id: 2,
+          flagOpenNews: false,
+          wasRead: true,
+        },
+        {
+          title: "news 3",
+          id: 3,
+          flagOpenNews: false,
+          wasRead: true,
+        },
+      ],
+    };
+  },
+
+  methods: {
+    counterFunction(dataBoolean) {
+      if (dataBoolean) {
+        return this.count++;
+      }
+    },
+
+    readNewsFunction(bool) {
+      if (!bool) {
+        this.readNewsCount++;
+      }
+    },
+  },
+
   components: {
-    HelloWorld
-  }
-}
+    "app-news": AppNews,
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+
