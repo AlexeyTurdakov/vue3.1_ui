@@ -1,22 +1,19 @@
 <template>
-  <div class="container pt-1">
-    <div class="card">
-      <h2>Actual news {{ now }}</h2>
-      Counter Open News: {{ count }} <br />
-      Counter Read News: {{ readNewsCount }}
-    </div>
-    <app-news
-      v-for="item in news"
-      :key="item.id"
-      :title="item.title"
-      :id="item.id"
-      :flagOpenNews="item.flagOpenNews"
-      :was-read="item.wasRead"
-      @open-news="counterFunction"
-      @read-news="readNewsFunction"
-    ></app-news>
-    <the-footer></the-footer>
-  </div>
+  <the-header
+    :openRateCount="this.openRate"
+    :dataEmit="this.dataFromEmitAppNews"
+  ></the-header>
+  <!-- <the-body></the-body> -->
+  <!-- <the-footer></the-footer> -->
+  <app-news
+    v-for="item in news"
+    :title="item.title"
+    :key="item.id"
+    :bodyNews="item.bodyNews"
+    :isOpen="item.isOpen"
+    :id="item.id"
+    @open-news="openFunc"
+  ></app-news>
 </template>
 
 <script>
@@ -25,50 +22,41 @@ import AppNews from "./components/AppNews.vue";
 export default {
   data() {
     return {
-      now: new Date().toLocaleString(),
-      count: 0,
-      readNewsCount: 0,
+      openRate: 0,
+      dataFromEmitAppNews: 0,
       news: [
         {
-          title: "news 1",
           id: 1,
-          flagOpenNews: false,
-          wasRead: true,
+          title: "news1",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
         },
         {
-          title: "news 2",
           id: 2,
-          flagOpenNews: false,
-          wasRead: true,
+          title: "news2",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
         },
         {
-          title: "news 3",
           id: 3,
-          flagOpenNews: false,
-          wasRead: true,
+          title: "news3",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
         },
       ],
     };
   },
-
-  methods: {
-    counterFunction(dataBoolean) {
-      if (dataBoolean) {
-        return this.count++;
-      }
-    },
-
-    readNewsFunction(bool) {
-      if (!bool) {
-        this.readNewsCount++;
-      }
-    },
-  },
-
   components: {
     "app-news": AppNews,
+  },
+  methods: {
+    openFunc(data) {
+      this.openRate++;
+      this.dataFromEmitAppNews = data;
+    },
   },
 };
 </script>
 
-
+<style>
+</style>

@@ -8,11 +8,11 @@
 export default {
   data() {
     return {
-      title: "The-footer from data",
+      title: "the-body title",
     };
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>
