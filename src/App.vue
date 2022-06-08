@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <the-header
+    :openRateCount="this.openRate"
+    :dataEmit="this.dataFromEmitAppNews"
+  ></the-header>
+  <!-- <the-body></the-body> -->
+  <!-- <the-footer></the-footer> -->
+  <app-news
+    v-for="item in news"
+    :title="item.title"
+    :key="item.id"
+    :bodyNews="item.bodyNews"
+    :isOpen="item.isOpen"
+    :id="item.id"
+    @open-news="openFunc"
+  ></app-news>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppNews from "./components/AppNews.vue";
 
 export default {
-  name: 'App',
+  data() {
+    return {
+      openRate: 0,
+      dataFromEmitAppNews: 0,
+      news: [
+        {
+          id: 1,
+          title: "news1",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
+        },
+        {
+          id: 2,
+          title: "news2",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
+        },
+        {
+          id: 3,
+          title: "news3",
+          bodyNews: "egh587ghe587ghe57ghe5ghegheg",
+          isOpen: false,
+        },
+      ],
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    "app-news": AppNews,
+  },
+  methods: {
+    openFunc(data) {
+      this.openRate++;
+      this.dataFromEmitAppNews = data;
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
