@@ -101,9 +101,9 @@ export default {
       this.dataFromEmitAppNews = data;
     },
     readNews() {
-      this.readRate++;
-    },
-  },
+      this.readRate++
+    }
+  }, 
 };
 </script>
 
