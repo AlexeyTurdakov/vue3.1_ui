@@ -2,6 +2,7 @@
   <the-header
     :openRateCount="this.openRate"
     :dataEmit="this.dataFromEmitAppNews"
+    :readRate="this.readRate"
   ></the-header>
   <!-- <the-body></the-body> -->
   <!-- <the-footer></the-footer> -->
@@ -12,7 +13,8 @@
     :bodyNews="item.bodyNews"
     :isOpen="item.isOpen"
     :id="item.id"
-    @open-news="openFunc"
+    @open-news="openNews"
+    @read-news="readNews"
   ></app-news>
 </template>
 
@@ -23,6 +25,7 @@ export default {
   data() {
     return {
       openRate: 0,
+      readRate: 0,
       dataFromEmitAppNews: 0,
       news: [
         {
@@ -50,11 +53,14 @@ export default {
     "app-news": AppNews,
   },
   methods: {
-    openFunc(data) {
+    openNews(data) {
       this.openRate++;
       this.dataFromEmitAppNews = data;
     },
-  },
+    readNews() {
+      this.readRate++
+    }
+  }, 
 };
 </script>
 

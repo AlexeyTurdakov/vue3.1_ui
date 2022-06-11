@@ -1,7 +1,10 @@
 <template>
   <div class="card">
     <h1>{{ title }}</h1>
-    <h2>OpenNewsCount: {{ this.openRateCount }} data: {{ this.dataEmit }}</h2>
+    <h2>
+      OpenNewsCount: {{ openRateCount }}, data: {{ dataEmit }}, readRate:
+      {{ readRate }}
+    </h2>
   </div>
 </template>
 
@@ -21,7 +24,12 @@ export default {
     dataEmit: {
       type: Number,
       required: false,
-      default: 0,
+      default: 100,
+    },
+    readRate: {
+      type: Number,
+      required: false,
+      default: 100,
     },
   },
 };
