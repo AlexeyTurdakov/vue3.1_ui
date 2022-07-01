@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <app-alert :alert="alert" @close="alert = null"></app-alert>
     <form class="card" @submit.prevent="createPerson">
       <h2>Работа с базой данных</h2>
 
@@ -9,20 +10,30 @@
       </div>
       <button class="btn primary" :disabled="name.length === 0">Send</button>
     </form>
+    <app-people-list
+      :people="people"
+      @load="loadPeople"
+      @remove="removePerson"
+    ></app-people-list>
   </div>
-
-  
 </template>
 
 <script>
 // https://vue-ui-i-default-rtdb.europe-west1.firebasedatabase.app/
-import AppPeopleListVue from './AppPeopleList.vue';
+import AppPeopleList from "./AppPeopleList.vue";
+import AppAlert from "./AppAlert.vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
       name: "",
+      people: [],
+      alert: null,
     };
+  },
+  mounted() {
+    this.loadPeople();
   },
   methods: {
     async createPerson() {
@@ -41,10 +52,45 @@ export default {
 
       const firebaseData = await response.json();
 
-      console.log(firebaseData);
+      this.people.push({
+        id: firebaseData.name,
+        firstName: this.name,
+      });
 
       this.name = "";
     },
+    async loadPeople() {
+      try {
+        const { data } = await axios.get(
+          "https://vue-ui-i-default-rtdb.europe-west1.firebasedatabase.app/people.json"
+        );
+
+        this.people = Object.keys(data).map((key) => {
+          return {
+            id: key,
+            ...data[key],
+          };
+        });
+      } catch (e) {
+        this.alert = {
+          type: "danger",
+          title: "Error",
+          text: e.message,
+        };
+        console.log(e);
+      }
+    },
+
+    async removePerson(id) {
+      await axios.delete(
+        `https://vue-ui-i-default-rtdb.europe-west1.firebasedatabase.app/people/${id}.json`
+      );
+      this.people = this.people.filter((person) => person.id !== id);
+    },
+  },
+  components: {
+    AppPeopleList,
+    AppAlert,
   },
 };
 </script>
