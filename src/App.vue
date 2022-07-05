@@ -13,14 +13,21 @@
       <button class="btn primary" @click="alert = true">Show component</button>
     </div>
 
-    <div class="card" v-color="myColor">
+    <div class="card" v-color:[type]="myColor">
       <div class="form-control">
         <label for="inp">Active default</label>
         <input type="text" id="inp" v-focus />
       </div>
+      {{ type }}
     </div>
 
     <button class="btn danger" @click="myColor = 'red'">Create red</button>
+    <button
+      class="btn danger"
+      @click="type = type === 'color' ? 'backgroundColor' : 'color'"
+    >
+      change
+    </button>
   </div>
 </template>
 
@@ -38,6 +45,7 @@ export default {
     return {
       alert: false,
       myColor: "blue",
+      type: "color",
     };
   },
   components: {
