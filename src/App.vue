@@ -13,7 +13,7 @@
       <button class="btn primary" @click="alert = true">Show component</button>
     </div>
 
-    <div class="card" v-color:[type]="myColor">
+    <div class="card" v-color:[type].blink="myColor">
       <div class="form-control">
         <label for="inp">Active default</label>
         <input type="text" id="inp" v-focus />
