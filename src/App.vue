@@ -1,57 +1,28 @@
 <template>
-  <div class="container">
-    <app-alert
-      v-if="alert"
-      text="text"
-      title="title"
-      type="danger"
-      :closable="true"
-      @close="alert = false"
-    ></app-alert>
-
-    <div class="card">
-      <button class="btn primary" @click="alert = true">Show component</button>
-    </div>
-
-    <div class="card" v-color:[type].blink="myColor">
-      <div class="form-control">
-        <label for="inp">Active default</label>
-        <input type="text" id="inp" v-focus />
-      </div>
-      {{ type }}
-    </div>
-
-    <button class="btn danger" @click="myColor = 'red'">Create red</button>
-    <button
-      class="btn danger"
-      @click="type = type === 'color' ? 'backgroundColor' : 'color'"
-    >
-      change
-    </button>
+  <the-navbar></the-navbar>
+  <div class="container with-nav">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import AppAlert from "./components/AppAlert.vue";
-import focusDirective from "./focusDirective";
-import colorDirective from "./colorDirective";
+import TheNavbar from './components/TheNavbar'
+import AppLogin from './views/Login'
 
 export default {
-  directives: {
-    focus: focusDirective,
-    color: colorDirective,
-  },
-  data() {
+  components: {TheNavbar, AppLogin},
+  provide() {
     return {
-      alert: false,
-      myColor: "blue",
-      type: "color",
-    };
-  },
-  components: {
-    AppAlert,
-  },
-};
+      emails: [
+        {id: 1, theme: 'Купил себе PlayStation 5'},
+        {id: 2, theme: 'Выучил Vue Router'},
+        {id: 3, theme: 'Хочу изучить весь Vue'},
+        {id: 4, theme: 'А следующий блок про Vuex!'},
+        {id: 5, theme: 'А что там на счет Vue Hooks?'}
+      ]
+    }
+  }
+}
 </script>
 
 <style>
