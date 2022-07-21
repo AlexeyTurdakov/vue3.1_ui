@@ -1,20 +1,45 @@
-import {
-  createRouter,
-  createWebHistory,
-  createMemoryHistory,
-} from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
+import Login from './views/Login'
+import Forget from './views/Forget'
+import Dashboard from './views/Dashboard'
+// import Mail from './views/Mail'
+import NotFound from './views/NotFound'
+import AppEmailBody from './components/AppEmailBody'
 
-import Login from "./views/Login.vue";
-import DashBoard from "./views/Dashboard.vue";
-import Forget from "./views/Forget.vue";
-import Mail from "./views/Mail.vue";
+const Mail = () => import('./views/Mail')
 
-export default createRouter({
-  routes: [
-    { path: "/login", component: Login, alias: "/" },
-    { path: "/dashboard", component: DashBoard },
-    { path: "/forget", component: Forget },
-    { path: "/mail", component: Mail },
-  ],
+const router = createRouter({
   history: createWebHistory(),
-});
+  routes: [
+    { path: '/login', component: Login, alias: '/' },
+    { path: '/forget', component: Forget, meta: {cantEnter: true} },
+    {
+      path: '/dashboard',
+      component: Dashboard,
+      name: 'home',
+      beforeEnter() {
+        console.log('beforeEnter')
+      } },
+    { path: '/mail', component: Mail, name: 'email', children: [
+        { path: ':mailId?', component: AppEmailBody, props: true }
+    ]},
+    { path: '/:notFound(.*)', component: NotFound }
+  ],
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'active'
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('beforeEach')
+  if (to.meta.cantEnter) {
+    next({name: 'home'})
+  } else {
+    next()
+  }
+})
+
+router.afterEach((to, from) => {
+
+})
+
+export default router
