@@ -12,7 +12,21 @@ export default createStore({
     },
   },
 
+  actions: {
+    addincassync(context) {
+      setTimeout(() => {
+        context.commit("add", { value: { a: 100, b: 100 } });
+      }, 1000);
+    }
+  },
+
   getters: {
-    counter
-  }
+    counter(state) {
+      return state.counter;
+    },
+
+    doubleCounter(state, getters) {
+      return getters.counter * 2;
+    },
+  },
 });
